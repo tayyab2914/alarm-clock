@@ -5,31 +5,46 @@ interface ConnectDotsGameProps {
   onComplete: () => void;
 }
 
-function generateDots(count: number): Dot[] {
+function generateDots(
+  count: number,
+  width = 300,
+  height = 300
+): Dot[] {
   const dots: Dot[] = [];
-  const padding = 60;
-  const minDistance = 80;
+
+  const radius = 20;
+  const padding = radius + 10;
+  const minDistance = radius * 2 + 10; // no overlap + margin
+  const maxAttemptsPerDot = 100;
 
   for (let i = 0; i < count; i++) {
-    let attempts = 0;
-    let x: number, y: number;
+    let placed = false;
 
-    do {
-      x = padding + Math.random() * (300 - padding * 2);
-      y = padding + Math.random() * (300 - padding * 2);
-      attempts++;
-    } while (
-      attempts < 50 &&
-      dots.some(
-        (dot) => Math.hypot(dot.x - x, dot.y - y) < minDistance
-      )
-    );
+    for (let attempt = 0; attempt < maxAttemptsPerDot; attempt++) {
+      const x = padding + Math.random() * (width - padding * 2);
+      const y = padding + Math.random() * (height - padding * 2);
 
-    dots.push({ id: i + 1, x, y, connected: false });
+      const isValid = dots.every(
+        (dot) => Math.hypot(dot.x - x, dot.y - y) >= minDistance
+      );
+
+      if (isValid) {
+        dots.push({ id: i + 1, x, y, connected: false });
+        placed = true;
+        break;
+      }
+    }
+
+    if (!placed) {
+      throw new Error(
+        "Unable to place dots without overlap. Reduce dot count or minDistance."
+      );
+    }
   }
 
   return dots;
 }
+
 
 export function ConnectDotsGame({ onComplete }: ConnectDotsGameProps) {
   const [dots, setDots] = useState<Dot[]>(() => generateDots(8));
@@ -140,8 +155,8 @@ export function ConnectDotsGame({ onComplete }: ConnectDotsGameProps) {
                 dot.connected
                   ? "hsl(var(--primary))"
                   : dot.id === nextDot
-                  ? "hsl(var(--accent))"
-                  : "hsl(var(--muted))"
+                    ? "hsl(var(--accent))"
+                    : "hsl(var(--muted))"
               }
               stroke={dot.id === nextDot ? "hsl(var(--primary))" : "transparent"}
               strokeWidth="3"
