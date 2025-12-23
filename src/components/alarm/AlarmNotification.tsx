@@ -74,14 +74,7 @@ export function AlarmNotification({
               >
                 Snooze (5 min)
               </Button>
-              <Button
-                size="lg"
-                onClick={handleDismiss}
-                className="w-full"
-              >
-                <X className="w-4 h-4 mr-2" />
-                Dismiss
-              </Button>
+
             </div>
           </>
         ) : (
