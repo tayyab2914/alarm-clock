@@ -72,7 +72,7 @@ export function AlarmNotification({
                 onClick={() => setShowPuzzle(true)}
                 className="w-full"
               >
-                Snooze (5 min)
+                Solve
               </Button>
 
             </div>
