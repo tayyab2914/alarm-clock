@@ -1,13 +1,14 @@
 export interface Alarm {
-  id: string;
-  time: string; // HH:MM format
-  enabled: boolean;
-  label?: string;
+  id: string
+  time: string // HH:MM format
+  enabled: boolean
+  label?: string
+  difficultyLevel?: number
 }
 
 export interface Dot {
-  id: number;
-  x: number;
-  y: number;
-  connected: boolean;
+  id: number
+  x: number
+  y: number
+  connected: boolean
 }

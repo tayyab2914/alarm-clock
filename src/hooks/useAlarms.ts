@@ -30,15 +30,20 @@ export function useAlarms() {
     localStorage.setItem(SNOOZE_KEY, JSON.stringify(obj));
   }, [snoozedAlarms]);
 
-  const addAlarm = useCallback((time: string, label?: string) => {
-    const newAlarm: Alarm = {
-      id: crypto.randomUUID(),
-      time,
-      enabled: true,
-      label,
-    };
-    setAlarms((prev) => [...prev, newAlarm]);
-  }, []);
+  const addAlarm = useCallback(
+    (time: string, label?: string, difficultyLevel: number = 8) => {
+      const newAlarm: Alarm = {
+        id: crypto.randomUUID(),
+        time,
+        enabled: true,
+        label,
+        difficultyLevel,
+      };
+
+      setAlarms((prev) => [...prev, newAlarm]);
+    },
+    []
+  );
 
   const removeAlarm = useCallback((id: string) => {
     setAlarms((prev) => prev.filter((alarm) => alarm.id !== id));
