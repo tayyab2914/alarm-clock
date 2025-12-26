@@ -19,9 +19,9 @@ export function AlarmNotification({ alarm, onDismiss, onSnooze }: AlarmNotificat
   const { startSound, stopSound } = useAlarmSound()
 
   useEffect(() => {
-    startSound()
+    startSound(alarm.soundType)
     return () => stopSound()
-  }, [startSound, stopSound])
+  }, [startSound, stopSound, alarm.soundType])
 
   const formatTime = (time: string) => {
     const [hours, minutes] = time.split(":").map(Number)

@@ -4,6 +4,7 @@ export interface Alarm {
   enabled: boolean
   label?: string
   difficultyLevel?: number
+  soundType?: string
 }
 
 export interface Dot {
