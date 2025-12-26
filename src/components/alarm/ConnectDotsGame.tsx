@@ -6,7 +6,7 @@ import { useState, useEffect, useCallback, useRef } from "react"
 import type { Dot } from "@/types/alarm"
 
 interface ConnectDotsGameProps {
-  onComplete: () => void
+  onComplete: (elapsedSeconds: number) => void
   difficultyLevel?: number
 }
 
@@ -79,15 +79,14 @@ export function ConnectDotsGame({ onComplete, difficultyLevel = 8 }: ConnectDots
       }
 
       if (nextDot === dots.length) {
-        onComplete()
+        onComplete(elapsedSeconds)
       } else {
         setNextDot((prev) => prev + 1)
       }
     },
-    [nextDot, dots, onComplete],
+    [nextDot, dots, onComplete, elapsedSeconds],
   )
 
-  // Track mouse/touch for drawing line preview
   const handlePointerMove = useCallback(
     (e: React.PointerEvent<SVGSVGElement>) => {
       if (nextDot === 1 || !svgRef.current) return
